@@ -2,18 +2,19 @@ const express =require('express');
 const app=express();
 const dotenv=require("dotenv").config()
 const mongoose=require("mongoose")
+const authRoute=require('./routes/auth');
 
-const connectionParams={
+app.use(express.json());
+
+mongoose
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
-    useUnifiedTopology: true 
-}
-mongoose.connect(process.env.MONGO_URL,connectionParams)
-    .then( () => {
-        console.log('Connected to database ')
-    })
-    .catch( (err) => {
-        console.error(`Error connecting to the database. \n${err}`);
-    });
+    useUnifiedTopology: true,
+  })
+  .then(console.log("Connected to MongoDB"))
+  .catch((err) => console.log(err));
+
+    app.use("/api/auth",authRoute)
 
 app.listen("5000",()=>{
     console.log(`backend is running on PORT 5000`);

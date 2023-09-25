@@ -8,7 +8,11 @@ const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
 const multer=require("multer")
 const path = require("path");
+var cors = require('cors')
 
+const PORT=process.env.PORT || 5000;
+
+app.use(cors()) ;
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "/images")));
 
@@ -39,6 +43,6 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
     app.use("/api/posts", postRoute);
     app.use("/api/categories", categoryRoute);
 
-app.listen("5000",()=>{  
+app.listen(PORT,()=>{  
     console.log(`backend is running on PORT 5000`);
 })       
